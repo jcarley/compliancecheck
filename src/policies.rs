@@ -2,20 +2,24 @@ use crate::models::Core;
 
 use anyhow::Result;
 
-#[derive(Debug, Default)]
-pub struct Policy {}
+type Check = fn(&Core, &mut PolicyResult) -> Result<()>;
+
+#[derive(Debug)]
+pub struct Policy {
+    checks: Vec<Check>,
+}
 
 impl Policy {
-    pub fn new() -> Self {
-        Self::default()
+    pub fn new(checks: Vec<Check>) -> Self {
+        Self { checks }
     }
 
     pub fn check(&mut self, core: Core) -> Result<PolicyResult> {
         let mut result = PolicyResult::new(core.company.name.clone());
 
-        manager_has_three_employees_check(&core, &mut result)?;
-        every_employee_has_a_device_check(&core, &mut result)?;
-        minimum_device_version_check(&core, &mut result)?;
+        for check in &self.checks {
+            check(&core, &mut result)?;
+        }
 
         Ok(result)
     }
@@ -40,7 +44,7 @@ impl PolicyResult {
     }
 }
 
-fn manager_has_three_employees_check(core: &Core, result: &mut PolicyResult) -> Result<()> {
+pub fn manager_has_three_employees_check(core: &Core, result: &mut PolicyResult) -> Result<()> {
     for manager in core
         .employees
         .iter()
@@ -63,7 +67,7 @@ fn manager_has_three_employees_check(core: &Core, result: &mut PolicyResult) -> 
     Ok(())
 }
 
-fn every_employee_has_a_device_check(core: &Core, result: &mut PolicyResult) -> Result<()> {
+pub fn every_employee_has_a_device_check(core: &Core, result: &mut PolicyResult) -> Result<()> {
     for employee in core.employees.iter() {
         let devices = core
             .devices
@@ -82,7 +86,7 @@ fn every_employee_has_a_device_check(core: &Core, result: &mut PolicyResult) -> 
     Ok(())
 }
 
-fn minimum_device_version_check(core: &Core, result: &mut PolicyResult) -> Result<()> {
+pub fn minimum_device_version_check(core: &Core, result: &mut PolicyResult) -> Result<()> {
     for device in core.devices.iter() {
         if device.operating_system.to_lowercase() == "macos" && device.version < 11.5 {
             let employee = core
