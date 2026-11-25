@@ -1,0 +1,28 @@
+{
+  "company": {
+    "id": "7ef08295-3ea2-4d25-927d-a01c30f6f04f",
+    "name": "Secureframe"
+  },
+  "employees": [
+    {
+      "id": "849b3ce6-d670-4096-87fe-e1eda8d3904d",
+      "name": "Alice",
+      "employee_type": "developer",
+      "manager_id": "60cc1c68-17e0-45c5-b807-24c32d277012"
+    },
+    {
+      "id": "60cc1c68-17e0-45c5-b807-24c32d277012",
+      "name": "Bob",
+      "employee_type": "manager",
+      "manager_id": null
+    }
+  ],
+  "devices": [
+    {
+      "id": "33a340e6-38c5-4b94-8378-00fa54db1065",
+      "employee_id": "849b3ce6-d670-4096-87fe-e1eda8d3904d",
+      "operating_system": "macos",
+      "version": 10.5
+    }
+  ]
+}
