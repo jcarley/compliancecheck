@@ -1,3 +1,4 @@
+mod checks;
 mod models;
 mod policies;
 
@@ -19,9 +20,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     let core: Core = load(Path::new("data.json"))?;
 
     let mut policy = Policy::new(vec![
-        policies::manager_has_three_employees_check,
-        policies::every_employee_has_a_device_check,
-        policies::minimum_device_version_check,
+        checks::manager_has_three_employees_check,
+        checks::every_employee_has_a_device_check,
+        checks::minimum_device_version_check,
     ]);
     let mut policy_result = policy.check(core)?;
 
