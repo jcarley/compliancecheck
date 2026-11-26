@@ -39,7 +39,7 @@ impl PolicyResult {
         }
     }
 
-    pub fn success(&mut self) -> bool {
+    pub fn success(&self) -> bool {
         self.failing_checks.is_empty()
     }
 }
