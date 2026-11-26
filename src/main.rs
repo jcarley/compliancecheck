@@ -24,10 +24,16 @@ fn main() -> Result<(), Box<dyn Error>> {
         checks::every_employee_has_a_device_check,
         checks::minimum_device_version_check,
     ]);
-    let mut policy_result = policy.check(core)?;
+    let policy_result = policy.check(core)?;
 
     println!("Company: {}", policy_result.company);
     println!("Policy Result: {}", policy_result.success());
+
+    if !policy_result.success() {
+        for msg in policy_result.failing_checks {
+            println!("- {msg}");
+        }
+    }
 
     Ok(())
 }
