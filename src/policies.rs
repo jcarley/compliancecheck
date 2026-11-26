@@ -14,7 +14,7 @@ impl Policy {
         Self { checks }
     }
 
-    pub fn check(&mut self, core: Core) -> Result<PolicyResult> {
+    pub fn check(&self, core: Core) -> Result<PolicyResult> {
         let mut result = PolicyResult::new(core.company.name.clone());
 
         for check in &self.checks {

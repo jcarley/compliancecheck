@@ -19,8 +19,8 @@ fn load(path: &Path) -> Result<Core> {
 fn main() -> Result<(), Box<dyn Error>> {
     let core: Core = load(Path::new("data.json"))?;
 
-    let mut policy = Policy::new(vec![
-        checks::manager_has_three_employees_check,
+    let policy = Policy::new(vec![
+        checks::manager_has_no_less_than_three_employees_check,
         checks::every_employee_has_a_device_check,
         checks::minimum_device_version_check,
     ]);
